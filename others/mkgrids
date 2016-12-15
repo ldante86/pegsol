@@ -1,0 +1,18 @@
+#!/bin/bash -
+
+BOARD="\n\n\
+\t\t  %2s  %2s  %2s\n
+\t\t  %2s  %2s  %2s\n
+\t  %2s  %2s  %2s  %2s  %2s  %2s  %2s\n
+\t  %2s  %2s  %2s  %2s  %2s  %2s  %2s\n
+\t  %2s  %2s  %2s  %2s  %2s  %2s  %2s\n
+\t\t  %2s  %2s  %2s\n
+\t\t  %2s  %2s  %2s\n\n\n"
+
+clear
+
+printf "$BOARD" {a..p} . {P..A}
+
+printf "$BOARD" {0..15} . {15..0}
+
+printf "$BOARD" +{,,,,,,,,,,,,,,,} . -{,,,,,,,,,,,,,,,}
