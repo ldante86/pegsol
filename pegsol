@@ -85,7 +85,7 @@ _get_coord()
         do
                 if (( z == $2 )); then
                         echo $i
-                        break
+                        return
                 fi
                 ((++z))
         done
@@ -312,7 +312,7 @@ done
 _allocate_board
 
 printf "\e[?25l"
-start_pos=${START[$((RANDOM % ${#START[@]}))]}
+start_pos=${START[RANDOM % ${#START[@]}]}
 current_pos=$start_pos
 token=$PEG
 board[start_pos]="${BO}${token}${LD}"
