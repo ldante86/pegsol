@@ -24,7 +24,6 @@
 #
 ########################################################################
 
-<<<<<<< HEAD
 PROGRAM="${0##*/}"
 HOLE="."                # Hole for peg
 PEG="o"                 # Peg token
@@ -33,21 +32,6 @@ BO=$(tput smso)         # Bold on
 LD=$(tput rmso)         # Bold off
 CENTER=16               # Center of board
 START=(4 14 18 28)      # Start positions (chosen randomly)
-=======
-export PATH=/bin:/usr/bin
-unalias -a
-
-########################## DEFINE GLOBALS ##############################
-
-PROGRAM="${0##*/}"			# Program name
-HOLE="."				# Hole for peg
-PEG="o"					# Peg token
-MOVE=0					# Move counter
-BO=$(tput smso)				# Bold on
-LD=$(tput rmso)				# Bold off
-CENTER=16				# Center of board
-START=(4 14 18 28)			# Start positions (chosen randomly)
->>>>>>> b572b11ef21ced73468d5db7b8d199ccbdf657da
 
 STATUS=("Peg selected" "Invalid move" "Peg deselected"
      "That is not a peg!" "${BO}YOU WIN${LD}")
@@ -70,7 +54,6 @@ BOARD="\n\n\
 \t\t%s   %s   %s\n
 \t\t%s   %s   %s\n"
 
-<<<<<<< HEAD
 USAGE="
 ${PROGRAM} - a solitaire gamee
 
@@ -174,67 +157,10 @@ _main()
                 _win
                 _exit
         fi
-=======
-######################### DEFINE FUNCTIONS #############################
-
-_main()
-{
-    old_pos=$current_pos
-
-    read -sn1
-    case $REPLY in
-      [Aa])  new_pos=$((old_pos - 1)) ;;
-      [Dd])  new_pos=$((old_pos + 1)) ;;
-      [Ss])  for ((i=0; i<${#COORDS[@]}; i++))
-             do
-               if [ "$old_pos" = "$(awk '{ print $2 }' <<< ${COORDS[i]})" ]; then
-                 new_pos=$(awk '{ print $1 }' <<< "${COORDS[i]}")
-               fi
-             done ;;
-      [Ww])  for ((i=0; i<${#COORDS[@]}; i++))
-             do
-               if [ "$old_pos" = "$(awk '{ print $1 }' <<< ${COORDS[i]})" ]; then
-                 new_pos=$(awk '{ print $2 }' <<< "${COORDS[i]}")
-               fi
-             done ;;
-      [Qq])  _exit ;;
-    ' '|'')  _process_play ;;
-         *)  _status 1
-             read -sn1 ;;
-    esac
-
-    if [ $new_pos -lt 0 ] || [ $new_pos -gt 32 ]; then
-      new_pos=$current_pos
-    fi
-
-    board[current_pos]=$token
-
-    current_pos=$new_pos
-
-    token=${board[current_pos]}
-
-    board[new_pos]="${BO}${token}${LD}"
-
-    count=0
-    for i in ${board[@]}
-    do
-      if [ "$i" = "$PEG" ]; then
-        ((count++))
-      fi
-    done
-
-    if [ $count -eq 1 ]; then
-      clear
-      _draw_board
-      _win
-      _exit
-    fi
->>>>>>> b572b11ef21ced73468d5db7b8d199ccbdf657da
 }
 
 _process_play()
 {
-<<<<<<< HEAD
         if [ "$token" != "$PEG" ]; then
                 _status 3
                 read -sn1
@@ -381,151 +307,6 @@ do
                         ;;
         esac
         shift
-=======
-    if [ "$token" != "$PEG" ]; then
-      _status 3
-      read -sn1
-      return
-    fi
-
-    _status 0
-
-    read -sn1
-    case $REPLY in
-      [Aa])  case $old_pos in
-               3|4|6|7|13|14|20|21|27|28|30|31)
-                 _status 1
-                 read -sn1
-                 return
-             esac
-             if [ "${board[$((current_pos - 2))]}" = "$HOLE" ] &&
-                [ "${board[$((current_pos - 1))]}" = "$PEG" ]
-             then
-               board[$((current_pos - 1))]=$HOLE
-               board[$((current_pos - 2))]=$PEG
-               token=$HOLE
-               new_pos=$((current_pos - 2))
-               ((++MOVE))
-               return
-             fi ;;
-      [Dd])  case $old_pos in
-               1|2|4|5|11|12|18|19|25|26|28|29|31|32)
-                 _status 1
-                 read -sn1
-                 return
-             esac
-             if [ "${board[$((current_pos + 2))]}" = "$HOLE" ] &&
-                [ "${board[$((current_pos + 1))]}" = "$PEG" ]
-             then
-               board[$((current_pos + 1))]=$HOLE
-               board[$((current_pos + 2))]=$PEG
-               token=$HOLE
-               new_pos=$((current_pos + 2))
-               ((++MOVE))
-               return
-             fi ;;
-      [Ww])  for ((i=0; i<${#COORDS[@]}; i++))
-             do
-               origin=$(awk '{ print $1 }' <<< ${COORDS[i]})
-               if [ "$old_pos" = "$origin" ]; then
-                 dest=$(awk '{ print $3 }' <<< ${COORDS[i]})
-                 obst=$(awk '{ print $2 }' <<< ${COORDS[i]})
-                 if [ "${board[dest]}" = "$HOLE" ] &&
-                    [ "${board[obst]}" = "$PEG" ]
-                 then
-                   board[dest]=$PEG
-                   board[obst]=$HOLE
-                   token=$HOLE
-                   new_pos=$dest
-                   ((++MOVE))
-                   return
-                 fi
-               fi
-             done ;;
-      [Ss])  for ((i=0; i<${#COORDS[@]}; i++))
-             do
-               origin=$(awk '{ print $3 }' <<< ${COORDS[i]})
-               if [ "$old_pos" = "$origin" ]; then
-                 dest=$(awk '{ print $1 }' <<< ${COORDS[i]})
-                 obst=$(awk '{ print $2 }' <<< ${COORDS[i]})
-                 if [ "${board[dest]}" = "$HOLE" ] &&
-                    [ "${board[obst]}" = "$PEG" ]
-                 then
-                   board[dest]=$PEG
-                   board[obst]=$HOLE
-                   token=$HOLE
-                   new_pos=$dest
-                   ((++MOVE))
-                   return
-                 fi
-               fi
-             done ;;
-      *)     _status 2
-             read -sn1
-             return ;;
-    esac
-
-   _status 1
-   read -sn1
-}
-
-_usage()
-{
-	cat <<-eof
-	 ${PROGRAM} - a solitaire game
-
-	 Usage: ${PROGRAM} [-flag]
-
-	 Flags:
-	   -h		view this help and exit
-	   -n		disable status bar and score
-	   -t p h	set peg and hole tokens
-
-	 Description:
-	   Jump over a peg to an empty hole and take
-	   the jumped peg. Continue until there is
-	   only one left.
-
-	 Controls:
-	     w
-	   a   d
-	     s
-	   q = quit
-
-	 Select/deselect: ENTER or SPACE
-	eof
-    _exit
-}
-
-_allocate_board() { board=( $PEG{,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,,} ); }
-_draw_board() { printf "$BOARD" "${board[@]}"; }
-_status() { printf "\n\n\t%s\n" "${STATUS[$1]}"; }
-_score() { printf "\n\t%s\n" "Moves: $MOVE"; }
-_win() { printf "\n\n\t\t%s\n\n" "${MSG[4]}"; }
-_exit() { printf "\e[?12l\e[?25h" && stty echo && exit 0; }
-
-########################## END OF FUNCTIONS ############################
-
-########################## PROGRAM START ###############################
-
-trap '_exit' EXIT INT
-
-while [ $# -gt 0 ]
-do
-  case $1 in
-    -[Hh])  _usage ;;
-    -[Nn])  _status() { :; }
-            _score() { :; } ;;
-    -[Tt])  shift && PEG="${1:-PEG}"
-            shift && HOLE="${1:-HOLE}"
-            if [ "$PEG" = "$HOLE" ]; then
-              echo both tokens cannot be the same
-              echo exiting...
-              _exit
-            fi ;;
-  esac
-  shift
->>>>>>> b572b11ef21ced73468d5db7b8d199ccbdf657da
 done
 
 _allocate_board
@@ -539,16 +320,7 @@ board[CENTER]=$HOLE
 
 while clear
 do
-<<<<<<< HEAD
         _score
         _draw_board
         _main
 done
-=======
-  _score
-  _draw_board
-  _main
-done
-
-### EOF ###
->>>>>>> b572b11ef21ced73468d5db7b8d199ccbdf657da
