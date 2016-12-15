@@ -57,7 +57,7 @@ BOARD="\n\n\
 USAGE="
 ${PROGRAM} - a solitaire gamee
 
-Usage: ${PROGRAM} [-flag] [peg hol]
+Usage: ${PROGRAM} [-flag] [peg hole]
 
 Flags:
   -h		view this help and exit
