@@ -6,15 +6,15 @@
 <table>
 <tbody>
 <tr class="odd">
-<td align="left">* -h</td>
+<td align="left">-h</td>
 <td align="left">view this help and exit</td>
 </tr>
 <tr class="even">
-<td align="left">* -n</td>
+<td align="left">-n</td>
 <td align="left">disable status bar and score</td>
 </tr>
 <tr class="odd">
-<td align="left">* -t <em>p h</em></td>
+<td align="left">-t <em>p h</em></td>
 <td align="left">set peg and hole tokens</td>
 </tr>
 </tbody>
