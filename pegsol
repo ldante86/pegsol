@@ -297,8 +297,10 @@ do
                         _score() { :; }
                         ;;
                 -t)
-                        shift && PEG="${1:-PEG}"
-                        shift && HOLE="${1:-HOLE}"
+                        shift
+                        PEG="${1:-PEG}"
+                        shift
+                        HOLE="${1:-HOLE}"
                         if [ "$PEG" = "$HOLE" ]; then
                                 echo both tokens cannot be the same
                                 echo exiting...
@@ -312,10 +314,9 @@ done
 _allocate_board
 
 printf "\e[?25l"
-start_pos=${START[RANDOM % ${#START[@]}]}
-current_pos=$start_pos
+current_pos=${START[RANDOM % ${#START[@]}]}
 token=$PEG
-board[start_pos]="${BO}${token}${LD}"
+board[current_pos]="${BO}${token}${LD}"
 board[CENTER]=$HOLE
 
 while clear
