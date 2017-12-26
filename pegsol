@@ -24,6 +24,8 @@
 #
 ########################################################################
 
+# https://en.wikipedia.org/wiki/Peg_solitaire
+
 PROGRAM="${0##*/}"
 HOLE="."                # Hole for peg
 PEG="o"                 # Peg token
@@ -33,17 +35,45 @@ LD=$(tput rmso)         # Bold off
 CENTER=16               # Center of board
 START=(4 14 18 28)      # Start positions (chosen randomly)
 
-STATUS=("Peg selected" "Invalid move" "Peg deselected"
-     "That is not a peg!" "${BO}YOU WIN${LD}")
+STATUS=(
+     "Peg selected"
+     "Invalid move"
+     "Peg deselected"
+     "That is not a peg!"
+     "${BO}YOU WIN${LD}"
+)
 
 # Coordinates for vertical movement and jumping. The middle
 # coordinate is always the obstacle. The other two can be the
 # origin, the destination, or outside the board ('x').
-COORDS=("3 0 x" "4 1 x" "5 2 x" "8 3 0" "9 4 1" "10 5 2"
-        "13 6 x" "14 7 x" "15 8 3" "16 9 4" "17 10 5"
-        "18 11 x" "19 12 x" "20 13 6" "21 14 7" "22 15 8"
-        "23 16 9" "24 17 10" "25 18 11" "26 19 12" "27 22 15"
-        "28 23 16" "29 24 17" "30 27 22" "31 28 23" "32 29 24")
+COORDS=(
+     "3 0 x"
+     "4 1 x"
+     "5 2 x"
+     "8 3 0"
+     "9 4 1"
+     "10 5 2"
+     "13 6 x"
+     "14 7 x"
+     "15 8 3"
+     "16 9 4"
+     "17 10 5"
+     "18 11 x"
+     "19 12 x"
+     "20 13 6"
+     "21 14 7"
+     "22 15 8"
+     "23 16 9"
+     "24 17 10"
+     "25 18 11"
+     "26 19 12"
+     "27 22 15"
+     "28 23 16"
+     "29 24 17"
+     "30 27 22"
+     "31 28 23"
+     "32 29 24"
+)
 
 BOARD="\n\n\
 \t\t%s   %s   %s\n
@@ -71,8 +101,8 @@ Description:
 
 Controls:
     w
-  a   d
-    s
+  a s d
+  
   q = quit
 
 Select/deselect: ENTER or SPACE
@@ -275,7 +305,7 @@ _score()
 
 _win()
 {
-        printf "\n\n\t\t%s\n\n" "${MSG[4]}"
+        printf "\n\n\t\t%s\n\n" "${STATUS[4]}"
 }
 
 _exit()
